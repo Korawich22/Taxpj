@@ -272,21 +272,115 @@ class _P3singleState extends State<P3single> {
       width: double.infinity,
       child: ElevatedButton(
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => P4single(
-                income: widget.income,
-                homeLoan: _homeLoanController.text,
-                socialSecurity: _socialSecurityController.text,
-                isFatherSelected: selectedParentalCare.contains('Father'),
-                isMotherSelected: selectedParentalCare.contains('Mother'),
-                isDisFatherSelected: selectedDisabledCare.contains('Father'),
-                isDisMotherSelected: selectedDisabledCare.contains('Mother'),
-                isOtherSelected: selectedDisabledCare.contains('Other'),
+          String homeLoan = _homeLoanController.text.trim();
+          String socialSecurity = _socialSecurityController.text.trim();
+          bool isValid = true;
+
+          if (homeLoan.isNotEmpty) {
+            if (!isNumeric(homeLoan)) {
+              isValid = false;
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text("Invalid Input"),
+                    content: const Text(
+                        "Please enter a valid numeric value for Hoam Loan."),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text("OK"),
+                      ),
+                    ],
+                  );
+                },
+              );
+            } else if (double.parse(homeLoan) > 100000) {
+              isValid = false;
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text("Invalid Input"),
+                    content:
+                        const Text("Home Loan must not exceed 100,000 baht."),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text("OK"),
+                      ),
+                    ],
+                  );
+                },
+              );
+            }
+          }
+
+          if (socialSecurity.isNotEmpty) {
+            if (!isNumeric(socialSecurity)) {
+              isValid = false;
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text("Invalid Input"),
+                    content: const Text(
+                        "Please enter a valid numeric value for Social Security Fund."),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text("OK"),
+                      ),
+                    ],
+                  );
+                },
+              );
+            } else if (double.parse(socialSecurity) > 9000) {
+              isValid = false;
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text("Invalid Input"),
+                    content: const Text(
+                        "Social Security Fund must not exceed 9,000 baht."),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text("OK"),
+                      ),
+                    ],
+                  );
+                },
+              );
+            }
+          }
+
+          if (isValid) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => P4single(
+                  income: widget.income,
+                  homeLoan: _homeLoanController.text,
+                  socialSecurity: _socialSecurityController.text,
+                  isFatherSelected: selectedParentalCare.contains('Father'),
+                  isMotherSelected: selectedParentalCare.contains('Mother'),
+                  isDisFatherSelected: selectedDisabledCare.contains('Father'),
+                  isDisMotherSelected: selectedDisabledCare.contains('Mother'),
+                  isOtherSelected: selectedDisabledCare.contains('Other'),
+                ),
               ),
-            ),
-          );
+            );
+          }
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFF6D9674),
