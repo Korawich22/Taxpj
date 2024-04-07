@@ -33,6 +33,7 @@ class Singcal extends StatefulWidget {
 
 class _SingcalState extends State<Singcal> {
   double calculatedTax = 0.0; // Initialize with 0
+  bool calculationError = false;
 
   @override
   void initState() {
@@ -42,28 +43,36 @@ class _SingcalState extends State<Singcal> {
   }
 
   void calculateTax() {
-    // Example calculation logic
-    double income = double.parse(widget.income);
-    double lifeHealthInsurance = double.parse(widget.lifeHealthInsurance);
-    double healthInsuranceParent = double.parse(widget.healthInsuranceParent);
-    double homeLoan = double.parse(widget.homeLoan);
-    double socialSecurity = double.parse(widget.socialSecurity);
+    try {
+      // Example calculation logic
+      double income = double.parse(widget.income);
+      double lifeHealthInsurance =
+          double.tryParse(widget.lifeHealthInsurance) ?? 0;
+      double healthInsuranceParent =
+          double.tryParse(widget.healthInsuranceParent) ?? 0;
+      double homeLoan = double.tryParse(widget.homeLoan) ?? 0;
+      double socialSecurity = double.tryParse(widget.socialSecurity) ?? 0;
 
-    // Perform your tax calculation here based on the received data
-    // This is just an example calculation, replace it with your actual calculation logic
-    double totalDeductions = lifeHealthInsurance +
-        healthInsuranceParent +
-        homeLoan +
-        socialSecurity +
-        (widget.isFatherSelected
-            ? 30000
-            : 0) + // Add 30000 if Father checkbox is selected
-        (widget.isMotherSelected ? 30000 : 0) +
-        (widget.isDisFatherSelected ? 60000 : 0) +
-        (widget.isDisMotherSelected ? 60000 : 0) +
-        (widget.isOtherSelected ? 60000 : 0);
+      // Perform your tax calculation here based on the received data
+      // This is just an example calculation, replace it with your actual calculation logic
+      double totalDeductions = lifeHealthInsurance +
+          healthInsuranceParent +
+          homeLoan +
+          socialSecurity +
+          (widget.isFatherSelected ? 30000 : 0) +
+          (widget.isMotherSelected ? 30000 : 0) +
+          (widget.isDisFatherSelected ? 60000 : 0) +
+          (widget.isDisMotherSelected ? 60000 : 0) +
+          (widget.isOtherSelected ? 60000 : 0);
 
-    calculatedTax = income - totalDeductions; // Example calculation
+      calculatedTax = income - totalDeductions; // Example calculation
+      calculationError = false;
+    } catch (e) {
+      print("Error calculating tax: $e");
+      setState(() {
+        calculationError = true;
+      });
+    }
   }
 
   @override
@@ -109,11 +118,15 @@ class _SingcalState extends State<Singcal> {
                 children: [
                   const SizedBox(height: 20),
                   Text(
-                    'TAXES TO BE PAID: \$${calculatedTax.toStringAsFixed(2)}', // Display calculated tax
-                    style: const TextStyle(
+                    calculationError
+                        ? 'Error calculating tax'
+                        : 'TAXES TO BE PAID: \$${calculatedTax.toStringAsFixed(2)}', // Display calculated tax
+                    style: TextStyle(
                       fontFamily: 'Poppins',
                       fontSize: 20,
-                      color: Color(0xFF998E8E),
+                      color: calculationError
+                          ? Colors.red
+                          : const Color(0xFF998E8E),
                     ),
                   ),
                   const SizedBox(height: 20),
