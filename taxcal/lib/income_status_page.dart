@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taxcal/p3_single.dart';
+import 'package:taxcal/p3_widdow.dart';
 // Update with your actual project name and file path
 
 class IncomeStatusPage extends StatefulWidget {
@@ -79,7 +80,21 @@ class _IncomeStatusPageState extends State<IncomeStatusPage> {
                       ),
                     );
                   } else {
-                    // Navigate to different pages based on selected status
+                    if (selectedStatus == 'Divorced/Widowed') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => P3widdow(
+                            income: _incomeController.text,
+                            notifyFatherCheckboxSelected: (value) {},
+                            notifyMotherCheckboxSelected: (value) {},
+                            notifyDisFatherCheckboxSelected: (value) {},
+                            notifyDisMotherCheckboxSelected: (value) {},
+                            notifyOtherCheckboxSelected: (value) {},
+                          ),
+                        ),
+                      );
+                    }
                   }
                 }
               },
