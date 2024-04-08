@@ -55,6 +55,7 @@ class _WidcalState extends State<Widcal> {
           double.tryParse(widget.healthInsuranceParent) ?? 0;
       double homeLoan = double.tryParse(widget.homeLoan) ?? 0;
       double socialSecurity = double.tryParse(widget.socialSecurity) ?? 0;
+      double childbirth = double.tryParse(widget.childbirth) ?? 0;
 
       // Perform your tax calculation here based on the received data
       // This is just an example calculation, replace it with your actual calculation logic
@@ -62,6 +63,7 @@ class _WidcalState extends State<Widcal> {
           healthInsuranceParent +
           homeLoan +
           socialSecurity +
+          childbirth +
           (widget.isFatherSelected ? 30000 : 0) +
           (widget.isMotherSelected ? 30000 : 0) +
           (widget.isDisFatherSelected ? 60000 : 0) +
