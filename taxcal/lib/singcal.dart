@@ -135,7 +135,7 @@ class _SingcalState extends State<Singcal> {
                 children: [
                   const SizedBox(height: 20),
                   Container(
-                    width: 250,
+                    width: 250, //width of NET INCOME fields
                     height: 50,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
