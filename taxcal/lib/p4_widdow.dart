@@ -6,6 +6,8 @@ class P4widdow extends StatefulWidget {
   final String homeLoan;
   final String socialSecurity;
   final String childbirth;
+  final String childFrom2561;
+  final String childBefore2561;
   final bool isFatherSelected;
   final bool isMotherSelected;
   final bool isDisFatherSelected;
@@ -23,6 +25,8 @@ class P4widdow extends StatefulWidget {
     required this.isDisFatherSelected,
     required this.isDisMotherSelected,
     required this.isOtherSelected,
+    required this.childFrom2561,
+    required this.childBefore2561,
   });
 
   @override
@@ -33,6 +37,8 @@ class _P4widdowState extends State<P4widdow> {
   final _lifehealthInsuController = TextEditingController();
   final _healthInsuParentController = TextEditingController();
   final _childbirthController = TextEditingController();
+  final _childFrom2561Controller = TextEditingController();
+  final _childBefore2561Controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -88,6 +94,18 @@ class _P4widdowState extends State<P4widdow> {
               _childbirthController,
               'Prenatal care and childbirth costs',
               'Must not exceed than 60,000 baht',
+            ),
+            const SizedBox(height: 20),
+            childFrom2561(
+              _childFrom2561Controller,
+              'Number of your children born SINCE B.E.2561',
+              'From B.E.2561, until now (Deduction 60,000 baht)',
+            ),
+            const SizedBox(height: 20),
+            childBefore2561(
+              _childBefore2561Controller,
+              'Number of your children born BEFORE B.E.2561',
+              'From B.E.2560, going back (Deduction 30,000 baht)',
             ),
             const SizedBox(height: 20),
             buildNextButton(),
@@ -282,6 +300,116 @@ class _P4widdowState extends State<P4widdow> {
     );
   }
 
+  Widget childFrom2561(
+    TextEditingController controller,
+    String labelText,
+    String helperText,
+  ) {
+    return TextFormField(
+      controller: controller,
+      keyboardType: TextInputType.number,
+      decoration: InputDecoration(
+        labelText: labelText,
+        labelStyle: const TextStyle(
+          fontFamily: 'Poppins',
+          color: Color.fromARGB(255, 0, 0, 0),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Color(0xFFFFB902)),
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Color(0xFFFFB902)),
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        helperText: helperText,
+      ),
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          if (isNumeric(value)) {
+            double amount = double.parse(value);
+            if (amount > 7) {
+              controller.text = '7';
+            }
+          } else {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: const Text("Invalid Input"),
+                  content: const Text("Please enter a valid numeric value."),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text("OK"),
+                    ),
+                  ],
+                );
+              },
+            );
+          }
+        }
+      },
+    );
+  }
+
+  Widget childBefore2561(
+    TextEditingController controller,
+    String labelText,
+    String helperText,
+  ) {
+    return TextFormField(
+      controller: controller,
+      keyboardType: TextInputType.number,
+      decoration: InputDecoration(
+        labelText: labelText,
+        labelStyle: const TextStyle(
+          fontFamily: 'Poppins',
+          color: Color.fromARGB(255, 0, 0, 0),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Color(0xFFFFB902)),
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Color(0xFFFFB902)),
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        helperText: helperText,
+      ),
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          if (isNumeric(value)) {
+            double amount = double.parse(value);
+            if (amount > 7) {
+              controller.text = '7';
+            }
+          } else {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: const Text("Invalid Input"),
+                  content: const Text("Please enter a valid numeric value."),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text("OK"),
+                    ),
+                  ],
+                );
+              },
+            );
+          }
+        }
+      },
+    );
+  }
+
   Widget buildNextButton() {
     return SizedBox(
       width: double.infinity,
@@ -291,6 +419,8 @@ class _P4widdowState extends State<P4widdow> {
           String healthInsuranceParent =
               _healthInsuParentController.text.trim();
           String childbirth = _childbirthController.text.trim();
+          String childFrom2561 = _childFrom2561Controller.text.trim();
+          String childBefore2561 = _childBefore2561Controller.text.trim();
           bool isValid = true;
 
           if (lifeHealthInsurance.isNotEmpty) {
@@ -425,6 +555,94 @@ class _P4widdowState extends State<P4widdow> {
             }
           }
 
+          if (childFrom2561.isNotEmpty) {
+            if (!isNumeric(childFrom2561)) {
+              isValid = false;
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text("Invalid Input"),
+                    content: const Text(
+                        "Please enter a valid numeric value for Number of your children born SINCE B.E.2561."),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text("OK"),
+                      ),
+                    ],
+                  );
+                },
+              );
+            } else if (double.parse(childFrom2561) > 7) {
+              isValid = false;
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text("Invalid Input"),
+                    content: const Text(
+                        "Number of your children born SINCE B.E.2561 must not exceed 7 person."),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text("OK"),
+                      ),
+                    ],
+                  );
+                },
+              );
+            }
+          }
+
+          if (childBefore2561.isNotEmpty) {
+            if (!isNumeric(childBefore2561)) {
+              isValid = false;
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text("Invalid Input"),
+                    content: const Text(
+                        "Please enter a valid numeric value for Number of your children born BEFORE B.E.2561"),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text("OK"),
+                      ),
+                    ],
+                  );
+                },
+              );
+            } else if (double.parse(childBefore2561) > 7) {
+              isValid = false;
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text("Invalid Input"),
+                    content: const Text(
+                        "Number of your children born BEFORE B.E.2561 must not exceed 7 person."),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text("OK"),
+                      ),
+                    ],
+                  );
+                },
+              );
+            }
+          }
+
           if (isValid) {
             Navigator.push(
               context,
@@ -441,6 +659,8 @@ class _P4widdowState extends State<P4widdow> {
                   isDisFatherSelected: widget.isDisFatherSelected,
                   isDisMotherSelected: widget.isDisMotherSelected,
                   isOtherSelected: widget.isOtherSelected,
+                  childFrom2561: childFrom2561,
+                  childBefore2561: childBefore2561,
                 ),
               ),
             );

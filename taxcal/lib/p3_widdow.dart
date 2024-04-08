@@ -27,6 +27,8 @@ class _P3widdowState extends State<P3widdow> {
   final _homeLoanController = TextEditingController();
   final _socialSecurityController = TextEditingController();
   final _childbirthController = TextEditingController();
+  final _childFrom2561Controller = TextEditingController();
+  final _childBefore2561Controller = TextEditingController();
   List<String> selectedParentalCare = [];
   List<String> selectedDisabledCare = [];
 
@@ -379,6 +381,8 @@ class _P3widdowState extends State<P3widdow> {
                   isDisFatherSelected: selectedDisabledCare.contains('Father'),
                   isDisMotherSelected: selectedDisabledCare.contains('Mother'),
                   isOtherSelected: selectedDisabledCare.contains('Other'),
+                  childFrom2561: _childFrom2561Controller.text,
+                  childBefore2561: _childBefore2561Controller.text,
                 ),
               ),
             );

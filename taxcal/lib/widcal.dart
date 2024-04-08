@@ -8,6 +8,8 @@ class Widcal extends StatefulWidget {
   final String homeLoan;
   final String socialSecurity;
   final String childbirth;
+  final String childFrom2561;
+  final String childBefore2561;
   final bool isFatherSelected;
   final bool isMotherSelected;
   final bool isDisFatherSelected;
@@ -21,6 +23,8 @@ class Widcal extends StatefulWidget {
     required this.healthInsuranceParent,
     required this.homeLoan,
     required this.childbirth,
+    required this.childFrom2561,
+    required this.childBefore2561,
     required this.socialSecurity,
     required this.isFatherSelected,
     required this.isMotherSelected,
@@ -56,6 +60,8 @@ class _WidcalState extends State<Widcal> {
       double homeLoan = double.tryParse(widget.homeLoan) ?? 0;
       double socialSecurity = double.tryParse(widget.socialSecurity) ?? 0;
       double childbirth = double.tryParse(widget.childbirth) ?? 0;
+      double childFrom2561 = double.tryParse(widget.childFrom2561) ?? 0;
+      double childBefore2561 = double.tryParse(widget.childBefore2561) ?? 0;
 
       // Perform your tax calculation here based on the received data
       // This is just an example calculation, replace it with your actual calculation logic
@@ -64,6 +70,8 @@ class _WidcalState extends State<Widcal> {
           homeLoan +
           socialSecurity +
           childbirth +
+          (childFrom2561 * 60000) + 
+          (childBefore2561 * 30000) + 
           (widget.isFatherSelected ? 30000 : 0) +
           (widget.isMotherSelected ? 30000 : 0) +
           (widget.isDisFatherSelected ? 60000 : 0) +
