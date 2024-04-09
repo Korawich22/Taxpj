@@ -1,24 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:taxcal/first_page.dart';
 
-class Singcal extends StatefulWidget {
+class Marmixcal extends StatefulWidget {
   final String income;
   final String lifeHealthInsurance;
   final String healthInsuranceParent;
   final String homeLoan;
   final String socialSecurity;
+  final String childbirth;
+  final String childFrom2561;
+  final String childBefore2561;
   final bool isFatherSelected;
   final bool isMotherSelected;
   final bool isDisFatherSelected;
   final bool isDisMotherSelected;
   final bool isOtherSelected;
 
-  const Singcal({
+  const Marmixcal({
     Key? key,
     required this.income,
     required this.lifeHealthInsurance,
     required this.healthInsuranceParent,
     required this.homeLoan,
+    required this.childbirth,
+    required this.childFrom2561,
+    required this.childBefore2561,
     required this.socialSecurity,
     required this.isFatherSelected,
     required this.isMotherSelected,
@@ -28,10 +34,10 @@ class Singcal extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _SingcalState createState() => _SingcalState();
+  _MarmixcalState createState() => _MarmixcalState();
 }
 
-class _SingcalState extends State<Singcal> {
+class _MarmixcalState extends State<Marmixcal> {
   double totaldeducttion = 0.0; // Initialize with 0
   double taxcaculation = 0.0;
   bool calculationError = false;
@@ -53,6 +59,9 @@ class _SingcalState extends State<Singcal> {
           double.tryParse(widget.healthInsuranceParent) ?? 0;
       double homeLoan = double.tryParse(widget.homeLoan) ?? 0;
       double socialSecurity = double.tryParse(widget.socialSecurity) ?? 0;
+      double childbirth = double.tryParse(widget.childbirth) ?? 0;
+      double childFrom2561 = double.tryParse(widget.childFrom2561) ?? 0;
+      double childBefore2561 = double.tryParse(widget.childBefore2561) ?? 0;
 
       // Perform your tax calculation here based on the received data
       // This is just an example calculation, replace it with your actual calculation logic
@@ -60,12 +69,15 @@ class _SingcalState extends State<Singcal> {
           healthInsuranceParent +
           homeLoan +
           socialSecurity +
+          childbirth +
+          (childFrom2561 * 60000) +
+          (childBefore2561 * 30000) +
           (widget.isFatherSelected ? 30000 : 0) +
           (widget.isMotherSelected ? 30000 : 0) +
           (widget.isDisFatherSelected ? 60000 : 0) +
           (widget.isDisMotherSelected ? 60000 : 0) +
           (widget.isOtherSelected ? 60000 : 0);
-      totaldeducttion = (income - deductions - 160000); // Example calculation
+      totaldeducttion = (income - deductions - 220000); // Example calculation
       calculationError = false;
 
       if (totaldeducttion >= 5000001) {

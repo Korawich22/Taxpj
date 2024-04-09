@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:taxcal/p3_single.dart';
 import 'package:taxcal/p3_widdow.dart';
-// Update with your actual project name and file path
+import 'package:taxcal/p3_married_mix.dart';
 
 class IncomeStatusPage extends StatefulWidget {
   const IncomeStatusPage({Key? key}) : super(key: key);
@@ -12,18 +12,19 @@ class IncomeStatusPage extends StatefulWidget {
 
 class _IncomeStatusPageState extends State<IncomeStatusPage> {
   final _incomeController = TextEditingController();
-  String selectedStatus = ''; // Initialize with empty string
+  String selectedStatus = '';
+  String? selectedMarriedOption;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFF0C3A2D), // Green color for the app bar
+        backgroundColor: const Color(0xFF0C3A2D),
         title: const Text(
           'Start Taxation',
           style: TextStyle(
-            fontFamily: 'Poppins', // Use Poppins font
-            color: Colors.white, // White color for the text
+            fontFamily: 'Poppins',
+            color: Colors.white,
           ),
         ),
         leading: GestureDetector(
@@ -31,16 +32,16 @@ class _IncomeStatusPageState extends State<IncomeStatusPage> {
             Navigator.pop(context);
           },
           child: Transform.scale(
-            scale: 0.8, // Adjust the scale factor as needed
+            scale: 0.8,
             child: Container(
               padding: const EdgeInsets.all(8),
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
-                color: Color(0xFFFFB902), // Yellow color for the back button
+                color: Color(0xFFFFB902),
               ),
               child: const Icon(
                 Icons.arrow_back,
-                color: Color(0xFF0C3A2D), // White color for the back arrow
+                color: Color(0xFF0C3A2D),
               ),
             ),
           ),
@@ -56,11 +57,23 @@ class _IncomeStatusPageState extends State<IncomeStatusPage> {
             const SizedBox(height: 20),
             buildStatusDropdown(),
             const SizedBox(
-                height: 40), // Increased space between dropdown and button
+              height: 20,
+            ),
+            if (selectedStatus == 'Married') ...[
+              const SizedBox(height: 20),
+              buildMarriedOptions(),
+            ],
+            const SizedBox(
+              height: 20,
+            ),
             ElevatedButton(
               onPressed: () {
                 if (selectedStatus.isEmpty) {
                   showWarningDialog(context, 'Please select a status.');
+                } else if (selectedStatus == 'Married' &&
+                    selectedMarriedOption == null) {
+                  showWarningDialog(
+                      context, 'Please select a tax filing type.');
                 } else if (_incomeController.text.isEmpty ||
                     !isNumeric(_incomeController.text)) {
                   showWarningDialog(context, 'Please enter a valid income.');
@@ -79,6 +92,38 @@ class _IncomeStatusPageState extends State<IncomeStatusPage> {
                         ),
                       ),
                     );
+                  } else if (selectedStatus == 'Married') {
+                    if (selectedMarriedOption == 'Filing Jointly') {
+                      // Navigate to Filing Jointly page
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => P3marmix(
+                            income: _incomeController.text,
+                            notifyFatherCheckboxSelected: (value) {},
+                            notifyMotherCheckboxSelected: (value) {},
+                            notifyDisFatherCheckboxSelected: (value) {},
+                            notifyDisMotherCheckboxSelected: (value) {},
+                            notifyOtherCheckboxSelected: (value) {},
+                          ),
+                        ),
+                      );
+                    } else if (selectedMarriedOption == 'Filing Separately') {
+                      // Navigate to Filing Separately page
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => P3widdow(
+                            income: _incomeController.text,
+                            notifyFatherCheckboxSelected: (value) {},
+                            notifyMotherCheckboxSelected: (value) {},
+                            notifyDisFatherCheckboxSelected: (value) {},
+                            notifyDisMotherCheckboxSelected: (value) {},
+                            notifyOtherCheckboxSelected: (value) {},
+                          ),
+                        ),
+                      );
+                    }
                   } else {
                     if (selectedStatus == 'Divorced/Widowed') {
                       Navigator.push(
@@ -99,21 +144,19 @@ class _IncomeStatusPageState extends State<IncomeStatusPage> {
                 }
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor:
-                    const Color(0xFF6D9674), // Green color for the button
+                backgroundColor: const Color(0xFF6D9674),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(14),
                 ),
-                minimumSize:
-                    const Size(double.infinity, 60), // Full width button
+                minimumSize: const Size(double.infinity, 60),
               ),
               child: const Text(
                 'NEXT',
                 style: TextStyle(
-                  fontFamily: 'Poppins', // Use Poppins font
+                  fontFamily: 'Poppins',
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
-                  color: Colors.white, // White color for the text
+                  color: Colors.white,
                 ),
               ),
             ),
@@ -157,8 +200,7 @@ class _IncomeStatusPageState extends State<IncomeStatusPage> {
   Widget buildStatusDropdown() {
     return Container(
       decoration: BoxDecoration(
-        border:
-            Border.all(color: const Color(0xFFFFB902)), // Yellow border color
+        border: Border.all(color: const Color(0xFFFFB902)),
         borderRadius: BorderRadius.circular(8.0),
       ),
       child: Padding(
@@ -167,8 +209,8 @@ class _IncomeStatusPageState extends State<IncomeStatusPage> {
           decoration: const InputDecoration(
             labelText: 'Select Status',
             labelStyle: TextStyle(
-              fontFamily: 'Poppins', // Use Poppins font
-              color: Color.fromARGB(255, 0, 0, 0), // Yellow color for the label
+              fontFamily: 'Poppins',
+              color: Color.fromARGB(255, 0, 0, 0),
             ),
             border: InputBorder.none,
           ),
@@ -176,6 +218,7 @@ class _IncomeStatusPageState extends State<IncomeStatusPage> {
           onChanged: (String? value) {
             setState(() {
               selectedStatus = value ?? '';
+              selectedMarriedOption = null; // Reset the selected option
             });
           },
           items: <String>['', 'Single', 'Married', 'Divorced/Widowed']
@@ -187,6 +230,65 @@ class _IncomeStatusPageState extends State<IncomeStatusPage> {
           }).toList(),
         ),
       ),
+    );
+  }
+
+  Widget buildMarriedOptions() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Tax filing type',
+          style: TextStyle(
+            fontFamily: 'Poppins',
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Row(
+          children: [
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 12),
+                child: RadioListTile<String>(
+                  title: const Text('Filing Jointly'),
+                  value: 'Filing Jointly',
+                  groupValue: selectedMarriedOption,
+                  onChanged: (String? value) {
+                    setState(() {
+                      selectedMarriedOption = value;
+                    });
+                  },
+                ),
+              ),
+            ),
+            SizedBox(width: 10),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                child: RadioListTile<String>(
+                  title: const Text('Filing Separately'),
+                  value: 'Filing Separately',
+                  groupValue: selectedMarriedOption,
+                  onChanged: (String? value) {
+                    setState(() {
+                      selectedMarriedOption = value;
+                    });
+                  },
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 
