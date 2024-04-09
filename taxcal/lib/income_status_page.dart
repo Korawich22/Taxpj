@@ -245,45 +245,43 @@ class _IncomeStatusPageState extends State<IncomeStatusPage> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        Row(
+        SizedBox(height: 10),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  borderRadius: BorderRadius.circular(14),
-                ),
-                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 12),
-                child: RadioListTile<String>(
-                  title: const Text('Filing Jointly'),
-                  value: 'Filing Jointly',
-                  groupValue: selectedMarriedOption,
-                  onChanged: (String? value) {
-                    setState(() {
-                      selectedMarriedOption = value;
-                    });
-                  },
-                ),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.grey[200],
+                borderRadius: BorderRadius.circular(14),
+              ),
+              padding: EdgeInsets.symmetric(vertical: 5, horizontal: 12),
+              child: RadioListTile<String>(
+                title: const Text('Filing Jointly'),
+                value: 'Filing Jointly',
+                groupValue: selectedMarriedOption,
+                onChanged: (String? value) {
+                  setState(() {
+                    selectedMarriedOption = value;
+                  });
+                },
               ),
             ),
-            SizedBox(width: 10),
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  borderRadius: BorderRadius.circular(14),
-                ),
-                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                child: RadioListTile<String>(
-                  title: const Text('Filing Separately'),
-                  value: 'Filing Separately',
-                  groupValue: selectedMarriedOption,
-                  onChanged: (String? value) {
-                    setState(() {
-                      selectedMarriedOption = value;
-                    });
-                  },
-                ),
+            SizedBox(height: 10),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.grey[200],
+                borderRadius: BorderRadius.circular(14),
+              ),
+              padding: EdgeInsets.symmetric(vertical: 5, horizontal: 12),
+              child: RadioListTile<String>(
+                title: const Text('Filing Separately'),
+                value: 'Filing Separately',
+                groupValue: selectedMarriedOption,
+                onChanged: (String? value) {
+                  setState(() {
+                    selectedMarriedOption = value;
+                  });
+                },
               ),
             ),
           ],
