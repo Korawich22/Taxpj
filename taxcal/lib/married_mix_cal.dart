@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taxcal/first_page.dart';
+import 'package:taxcal/map.dart';
 
 class Marmixcal extends StatefulWidget {
   final String income;
@@ -246,7 +247,7 @@ class _MarmixcalState extends State<Marmixcal> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const FirstPage(),
+                              builder: (context) => const MapsPage(),
                             ),
                           );
                         },

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taxcal/income_status_page.dart';
+import 'package:taxcal/map.dart';
 
 class FirstPage extends StatelessWidget {
   const FirstPage({super.key});
@@ -27,10 +28,11 @@ class FirstPage extends StatelessWidget {
             child: Container(
               width: 108,
               height: 108,
-              decoration: const BoxDecoration(
+              child: Image.asset('assets/taxcallogo.png'),
+              /*decoration: const BoxDecoration(
                 shape: BoxShape.circle,
-                color: Color(0xFFFFB902),
-              ),
+                im
+              ),*/
             ),
           ),
           Positioned(
@@ -42,7 +44,7 @@ class FirstPage extends StatelessWidget {
                 style: TextStyle(
                   fontFamily: 'Poppins',
                   fontWeight: FontWeight.bold,
-                  fontSize: 18,
+                  fontSize: 32,
                   color: Colors.white,
                 ),
               ),
@@ -85,6 +87,12 @@ class FirstPage extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     // Add onPressed functionality for the "find place" button
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const MapsPage(),
+                      ),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF6D9674),

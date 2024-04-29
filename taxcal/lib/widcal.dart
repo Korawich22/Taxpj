@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taxcal/first_page.dart';
+import 'package:taxcal/map.dart';
 
 class Widcal extends StatefulWidget {
   final String income;
@@ -70,8 +71,8 @@ class _WidcalState extends State<Widcal> {
           homeLoan +
           socialSecurity +
           childbirth +
-          (childFrom2561 * 60000) + 
-          (childBefore2561 * 30000) + 
+          (childFrom2561 * 60000) +
+          (childBefore2561 * 30000) +
           (widget.isFatherSelected ? 30000 : 0) +
           (widget.isMotherSelected ? 30000 : 0) +
           (widget.isDisFatherSelected ? 60000 : 0) +
@@ -195,8 +196,8 @@ class _WidcalState extends State<Widcal> {
                         ),
                         child: Center(
                           child: Text(
-                            '\฿${taxcaculation >= 0 ? taxcaculation.toStringAsFixed(2) : '0.00'}', // Placeholder text for tax amount
-                            style: TextStyle(
+                            '฿${taxcaculation >= 0 ? taxcaculation.toStringAsFixed(2) : '0.00'}', // Placeholder text for tax amount
+                            style: const TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
@@ -219,7 +220,7 @@ class _WidcalState extends State<Widcal> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const FirstPage(),
+                              builder: (context) => const MapsPage(),
                             ),
                           );
                         },
@@ -243,10 +244,11 @@ class _WidcalState extends State<Widcal> {
                       const SizedBox(height: 20),
                       ElevatedButton(
                         onPressed: () {
+                          // Add onPressed functionality for the "find place" button
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const FirstPage(),
+                              builder: (context) => const MapsPage(),
                             ),
                           );
                         },

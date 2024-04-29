@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taxcal/first_page.dart';
+import 'package:taxcal/map.dart';
 
 class Singcal extends StatefulWidget {
   final String income;
@@ -234,7 +235,7 @@ class _SingcalState extends State<Singcal> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const FirstPage(),
+                              builder: (context) => const MapsPage(),
                             ),
                           );
                         },
