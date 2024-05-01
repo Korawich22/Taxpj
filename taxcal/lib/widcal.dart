@@ -67,8 +67,8 @@ class _WidcalState extends State<Widcal> {
       double childFrom2561 = double.tryParse(widget.childFrom2561) ?? 0;
       double childBefore2561 = double.tryParse(widget.childBefore2561) ?? 0;
 
-      // Perform your tax calculation here based on the received data
-      // This is just an example calculation, replace it with your actual calculation logic
+      // Perform tax calculation here based on the received data
+      
       double deductions = lifeHealthInsurance +
           healthInsuranceParent +
           homeLoan +

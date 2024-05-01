@@ -68,8 +68,8 @@ class _MarmixcalState extends State<Marmixcal> {
       double childFrom2561 = double.tryParse(widget.childFrom2561) ?? 0;
       double childBefore2561 = double.tryParse(widget.childBefore2561) ?? 0;
 
-      // Perform your tax calculation here based on the received data
-      // This is just an example calculation, replace it with your actual calculation logic
+      // Perform tax calculation here based on the received data
+      
       double deductions = lifeHealthInsurance +
           healthInsuranceParent +
           homeLoan +
@@ -82,7 +82,7 @@ class _MarmixcalState extends State<Marmixcal> {
           (widget.isDisFatherSelected ? 60000 : 0) +
           (widget.isDisMotherSelected ? 60000 : 0) +
           (widget.isOtherSelected ? 60000 : 0);
-      totaldeducttion = (income - deductions - 220000); // Example calculation
+      totaldeducttion = (income - deductions - 220000); 
       calculationError = false;
 
       if (totaldeducttion >= 5000001) {
