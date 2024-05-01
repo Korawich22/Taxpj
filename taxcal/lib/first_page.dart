@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:taxcal/income_status_page.dart';
-import 'package:taxcal/map.dart';
 
 class FirstPage extends StatelessWidget {
-  const FirstPage({super.key});
+  const FirstPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,10 +30,6 @@ class FirstPage extends StatelessWidget {
               width: 108,
               height: 108,
               child: Image.asset('assets/taxcallogo.png'),
-              /*decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                im
-              ),*/
             ),
           ),
           Positioned(
@@ -85,14 +82,19 @@ class FirstPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: () {
-                    // Add onPressed functionality for the "find place" button
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const MapsPage(),
-                      ),
+                  onPressed: () async {
+                    // Get the current position
+                    Position position = await Geolocator.getCurrentPosition(
+                      desiredAccuracy: LocationAccuracy.high,
                     );
+                    
+                    // Launch Google Maps with the current position
+                    double latitude = position.latitude;
+                    double longitude = position.longitude;
+                    String directionsUrl =
+                        'https://www.google.com/maps/dir/?api=1&destination=$latitude,$longitude';
+
+                    launch(Uri.parse(directionsUrl).toString());
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF6D9674),
@@ -119,3 +121,4 @@ class FirstPage extends StatelessWidget {
     );
   }
 }
+

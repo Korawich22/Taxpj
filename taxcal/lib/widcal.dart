@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:taxcal/first_page.dart';
-import 'package:taxcal/map.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Widcal extends StatefulWidget {
   final String income;
@@ -42,6 +43,8 @@ class _WidcalState extends State<Widcal> {
   double totaldeducttion = 0.0; // Initialize with 0
   double taxcaculation = 0.0;
   bool calculationError = false;
+
+  get currentPosition => null;
 
   @override
   void initState() {
@@ -220,7 +223,7 @@ class _WidcalState extends State<Widcal> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const MapsPage(),
+                              builder: (context) => const FirstPage(),
                             ),
                           );
                         },
@@ -243,14 +246,20 @@ class _WidcalState extends State<Widcal> {
                       ),
                       const SizedBox(height: 20),
                       ElevatedButton(
-                        onPressed: () {
-                          // Add onPressed functionality for the "find place" button
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const MapsPage(),
-                            ),
+                        onPressed: () async {
+                          // Get the current position
+                          Position position =
+                              await Geolocator.getCurrentPosition(
+                            desiredAccuracy: LocationAccuracy.high,
                           );
+
+                          // Launch Google Maps with the current position
+                          double latitude = position.latitude;
+                          double longitude = position.longitude;
+                          String directionsUrl =
+                              'https://www.google.com/maps/dir/?api=1&destination=$latitude,$longitude';
+
+                          launch(Uri.parse(directionsUrl).toString());
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF6D9674),
