@@ -101,7 +101,9 @@ class _SingcalState extends State<Singcal> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
+        appBar: PreferredSize(
+        preferredSize: Size.fromHeight(70), // Adjust the height as needed
+        child: AppBar(
           backgroundColor: const Color(0xFF0C3A2D),
           title: const Text(
             'Back',
@@ -115,7 +117,7 @@ class _SingcalState extends State<Singcal> {
               Navigator.pop(context);
             },
             child: Transform.scale(
-              scale: 0.8,
+              scale: 0.7,
               child: Container(
                 padding: const EdgeInsets.all(8),
                 decoration: const BoxDecoration(
@@ -125,11 +127,19 @@ class _SingcalState extends State<Singcal> {
                 child: const Icon(
                   Icons.arrow_back,
                   color: Color(0xFF0C3A2D),
+                  size: 28,
                 ),
               ),
             ),
           ),
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(17), // Adjust the radius as needed
+              bottomRight: Radius.circular(17), // Adjust the radius as needed
+            ),
+          ),
         ),
+    ),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(20.0),

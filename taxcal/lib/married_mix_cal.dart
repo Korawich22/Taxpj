@@ -3,7 +3,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:taxcal/first_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-
 class Marmixcal extends StatefulWidget {
   final String income;
   final String lifeHealthInsurance;
@@ -44,7 +43,7 @@ class _MarmixcalState extends State<Marmixcal> {
   double totaldeducttion = 0.0; // Initialize with 0
   double taxcaculation = 0.0;
   bool calculationError = false;
-  
+
   get currentPosition => null;
 
   @override
@@ -69,7 +68,7 @@ class _MarmixcalState extends State<Marmixcal> {
       double childBefore2561 = double.tryParse(widget.childBefore2561) ?? 0;
 
       // Perform tax calculation here based on the received data
-      
+
       double deductions = lifeHealthInsurance +
           healthInsuranceParent +
           homeLoan +
@@ -82,7 +81,7 @@ class _MarmixcalState extends State<Marmixcal> {
           (widget.isDisFatherSelected ? 60000 : 0) +
           (widget.isDisMotherSelected ? 60000 : 0) +
           (widget.isOtherSelected ? 60000 : 0);
-      totaldeducttion = (income - deductions - 220000); 
+      totaldeducttion = (income - deductions - 220000);
       calculationError = false;
 
       if (totaldeducttion >= 5000001) {
@@ -113,31 +112,41 @@ class _MarmixcalState extends State<Marmixcal> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: const Color(0xFF0C3A2D),
-          title: const Text(
-            'Back',
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              color: Colors.white,
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(70), // Adjust the height as needed
+          child: AppBar(
+            backgroundColor: const Color(0xFF0C3A2D),
+            title: const Text(
+              'Back',
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                color: Colors.white,
+              ),
             ),
-          ),
-          leading: GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Transform.scale(
-              scale: 0.8,
-              child: Container(
-                padding: const EdgeInsets.all(8),
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Color(0xFFFFB902),
+            leading: GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Transform.scale(
+                scale: 0.7,
+                child: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Color(0xFFFFB902),
+                  ),
+                  child: const Icon(
+                    Icons.arrow_back,
+                    color: Color(0xFF0C3A2D),
+                    size: 28,
+                  ),
                 ),
-                child: const Icon(
-                  Icons.arrow_back,
-                  color: Color(0xFF0C3A2D),
-                ),
+              ),
+            ),
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(17), // Adjust the radius as needed
+                bottomRight: Radius.circular(17), // Adjust the radius as needed
               ),
             ),
           ),
@@ -249,10 +258,11 @@ class _MarmixcalState extends State<Marmixcal> {
                       ElevatedButton(
                         onPressed: () async {
                           // Get the current position
-                          Position position = await Geolocator.getCurrentPosition(
+                          Position position =
+                              await Geolocator.getCurrentPosition(
                             desiredAccuracy: LocationAccuracy.high,
                           );
-                          
+
                           // Launch Google Maps with the current position
                           double latitude = position.latitude;
                           double longitude = position.longitude;

@@ -87,7 +87,7 @@ class FirstPage extends StatelessWidget {
                     Position position = await Geolocator.getCurrentPosition(
                       desiredAccuracy: LocationAccuracy.high,
                     );
-                    
+
                     // Launch Google Maps with the current position
                     double latitude = position.latitude;
                     double longitude = position.longitude;
@@ -121,4 +121,3 @@ class FirstPage extends StatelessWidget {
     );
   }
 }
-
