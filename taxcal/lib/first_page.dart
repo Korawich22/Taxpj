@@ -24,11 +24,11 @@ class FirstPage extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: MediaQuery.of(context).size.height * 0.2,
-            left: MediaQuery.of(context).size.width * 0.5 - 54,
+            top: MediaQuery.of(context).size.height * 0.185,
+            left: MediaQuery.of(context).size.width * 0.5 - 81,
             child: Container(
-              width: 108,
-              height: 108,
+              width: 162,
+              height: 162,
               child: Image.asset('assets/taxcallogo.png'),
             ),
           ),
