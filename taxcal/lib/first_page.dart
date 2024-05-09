@@ -6,6 +6,31 @@ import 'package:taxcal/income_status_page.dart';
 class FirstPage extends StatelessWidget {
   const FirstPage({Key? key}) : super(key: key);
 
+  Future<Position> _determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    // Test if location services are enabled.
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+    return await Geolocator.getCurrentPosition();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,9 +109,7 @@ class FirstPage extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () async {
                     // Get the current position
-                    Position position = await Geolocator.getCurrentPosition(
-                      desiredAccuracy: LocationAccuracy.high,
-                    );
+                    Position position = await _determinePosition();
 
                     // Launch Google Maps with the current position
                     double latitude = position.latitude;
